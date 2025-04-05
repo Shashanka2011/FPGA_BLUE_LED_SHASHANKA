@@ -10,7 +10,7 @@ VERILOG_FILE=top.v
 
 #Uart Var	
 PICO_DEVICE=/dev/ttyUSB0   # replace by the terminal used by your device
-BAUDS ?=9600
+BAUDS=9600
 
 build:
 	yosys -DCPU_FREQ=$(CPU_FREQ) -q -p "synth_ice40 -abc9 -device u -dsp -top $(TOP) -json $(TOP).json" $(VERILOG_FILE)
