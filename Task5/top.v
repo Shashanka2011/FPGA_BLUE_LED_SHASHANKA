@@ -1,3 +1,4 @@
+
 `include "uart_trx.v"
 
 //----------------------------------------------------------------------------
@@ -11,26 +12,26 @@ module top (
   output wire led_blue , // Blue
   output wire led_green , // Green
   output wire uarttx , // UART Transmission pin
-  input wire uartrx , // UART Reception pin
+  input wire uartrx , // UART Transmission pin
   input wire  hw_clk
 );
 
   wire        int_osc            ;
   reg  [27:0] frequency_counter_i;
- 
-/* 9600 Hz clock generation (from 3 MHz) */
+  
+/* 9600 Hz clock generation (from 12 MHz) */
     reg clk_9600 = 0;
     reg [31:0] cntr_9600 = 32'b0;
-    parameter period_9600 = 156;  // 3,000,000 / (2*9600) = 156.25 ~ 156
-
+    parameter period_9600 = 625;
+    
 uart_tx_8n1 DanUART (.clk (clk_9600), .txbyte("D"), .senddata(frequency_counter_i[24]), .tx(uarttx));
-
 //----------------------------------------------------------------------------
 //                                                                          --
 //                       Internal Oscillator                                --
 //                                                                          --
 //----------------------------------------------------------------------------
-  SB_HFOSC #(.CLKHF_DIV("0b11")) u_SB_HFOSC ( .CLKHFPU(1'b1), .CLKHFEN(1'b1), .CLKHF(int_osc));
+  SB_HFOSC #(.CLKHF_DIV ("0b10")) u_SB_HFOSC ( .CLKHFPU(1'b1), .CLKHFEN(1'b1), .CLKHF(int_osc));
+
 
 //----------------------------------------------------------------------------
 //                                                                          --
